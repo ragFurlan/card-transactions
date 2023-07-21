@@ -4,13 +4,16 @@ import (
 	"card-transactions/internal/entity"
 	repository "card-transactions/internal/platform/repositories"
 	accountsUseCase "card-transactions/internal/usecase/accounts"
+	operationTypeUseCase "card-transactions/internal/usecase/operationType"
 	"fmt"
+
+	"gopkg.in/go-playground/validator.v9"
 )
 
 type TransactionUseCase struct {
-	TransactionRepository   repository.Transaction
-	OperationTypeRepository repository.OperationType
-	AccountUseCase          accountsUseCase.AccountUseCase
+	TransactionRepository repository.Transaction
+	OperationTypeUseCase  operationTypeUseCase.OperationTypeUseCase
+	AccountUseCase        accountsUseCase.AccountUseCase
 }
 
 type Transaction interface {
@@ -18,17 +21,23 @@ type Transaction interface {
 }
 
 func NewTransactionUseCase(transactionRepository repository.Transaction,
-	operationTypeRepository repository.OperationType,
+	operationTypeUseCase operationTypeUseCase.OperationTypeUseCase,
 	accountUseCase accountsUseCase.AccountUseCase) *TransactionUseCase {
 
 	return &TransactionUseCase{
-		TransactionRepository:   transactionRepository,
-		OperationTypeRepository: operationTypeRepository,
-		AccountUseCase:          accountUseCase,
+		TransactionRepository: transactionRepository,
+		OperationTypeUseCase:  operationTypeUseCase,
+		AccountUseCase:        accountUseCase,
 	}
 }
 
 func (t TransactionUseCase) Save(transaction entity.Transaction) error {
+	validate := validator.New()
+	err := validate.Struct(transaction)
+	if err != nil {
+		return err
+	}
+
 	account, err := t.AccountUseCase.GetByID(transaction.AccountID)
 	if err != nil {
 		return err
@@ -38,7 +47,7 @@ func (t TransactionUseCase) Save(transaction entity.Transaction) error {
 		return fmt.Errorf("The given account does not exist")
 	}
 
-	operationType, err := t.OperationTypeRepository.GetByID(transaction.OperationTypesID)
+	operationType, err := t.OperationTypeUseCase.Get(transaction.OperationTypesID)
 	if err != nil {
 		return err
 	}

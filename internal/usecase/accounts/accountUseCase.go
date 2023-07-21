@@ -4,6 +4,8 @@ import (
 	"card-transactions/internal/entity"
 	repository "card-transactions/internal/platform/repositories"
 	"fmt"
+
+	"gopkg.in/go-playground/validator.v9"
 )
 
 type AccountUseCase struct {
@@ -22,6 +24,13 @@ func NewAccountsUseCase(accountRepository repository.Accounts) *AccountUseCase {
 }
 
 func (a AccountUseCase) Save(account entity.Account) error {
+	validate := validator.New()
+	err := validate.Struct(account)
+	if err != nil {
+		validationErrors := err.(validator.ValidationErrors)
+		return validationErrors
+	}
+
 	accountByDocumentNumber, err := a.GetByDocumentNumber(account.DocumentNumber)
 	if err != nil {
 		return err

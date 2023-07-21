@@ -4,6 +4,7 @@ import (
 	controller "card-transactions/internal/controllers/handlers"
 	repository "card-transactions/internal/platform/repositories"
 	"card-transactions/internal/usecase/accounts"
+	"card-transactions/internal/usecase/operationType"
 	"card-transactions/internal/usecase/transaction"
 	"fmt"
 	"net/http"
@@ -24,6 +25,7 @@ func main() {
 
 	// Operation Type
 	operationTypeRepository := repository.NewOperationTypeRepository(urlOperationTypes)
+	operationTypeUseCase := operationType.NewOperationTypeUseCase(operationTypeRepository)
 
 	// Account
 	accountRepository := repository.NewAccountsRepository(urlAccounts)
@@ -32,7 +34,7 @@ func main() {
 
 	//Transaction
 	transactionRepository := repository.NewTransactionRepository(urlTransactions)
-	transactionUseCase := transaction.NewTransactionUseCase(transactionRepository, operationTypeRepository, *accountUseCase)
+	transactionUseCase := transaction.NewTransactionUseCase(transactionRepository, *operationTypeUseCase, *accountUseCase)
 	handlerTransaction = controller.NewTransactionHandler(transactionUseCase)
 
 	StartServer()
