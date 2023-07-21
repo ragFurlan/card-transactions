@@ -16,7 +16,6 @@ type TransactionRepository struct {
 
 type Transaction interface {
 	Save(transactions entity.Transaction) error
-	GetTransactionByAccountID(accountID string) ([]entity.Transaction, error)
 }
 
 func NewTransactionRepository(transactionFilePath string) Transaction {
@@ -45,7 +44,7 @@ func (r TransactionRepository) Save(transactions entity.Transaction) error {
 	return nil
 }
 
-func (r TransactionRepository) GetTransactionByAccountID(accountID string) ([]entity.Transaction, error) {
+func (r TransactionRepository) GetTransactionsByAccountID(accountID string) ([]entity.Transaction, error) {
 	file, err := os.Open(r.transactionFilePath)
 	if err != nil {
 		err := fmt.Errorf("Failed to open transaction file: %v", err)

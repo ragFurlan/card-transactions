@@ -72,9 +72,11 @@ func (h *AccountHandler) Add(w http.ResponseWriter, r *http.Request) {
 	}
 
 	response := struct {
-		Message string `json:"message"`
+		AccountID string `json:"account_id"`
+		Message   string `json:"message"`
 	}{
-		Message: "Save account with success",
+		AccountID: account.ID,
+		Message:   "Save account with success",
 	}
 
 	w.Header().Set("Content-Type", "application/json")

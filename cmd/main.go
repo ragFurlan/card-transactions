@@ -17,11 +17,14 @@ var (
 	handlerTransaction *controller.TransactionHandler
 	urlAccounts        = "../internal/platform/data/accounts.txt"
 	urlTransactions    = "../internal/platform/data/transactions.txt"
-	// urlOperationTypes = "../internal/platform/data/operation_types.txt"
-
+	urlOperationTypes  = "../internal/platform/data/operation_types.txt"
 )
 
 func main() {
+
+	// Operation Type
+	operationTypeRepository := repository.NewOperationTypeRepository(urlOperationTypes)
+
 	// Account
 	accountRepository := repository.NewAccountsRepository(urlAccounts)
 	accountUseCase := accounts.NewAccountsUseCase(accountRepository)
@@ -29,7 +32,7 @@ func main() {
 
 	//Transaction
 	transactionRepository := repository.NewTransactionRepository(urlTransactions)
-	transactionUseCase := transaction.NewTransactionUseCase(transactionRepository)
+	transactionUseCase := transaction.NewTransactionUseCase(transactionRepository, operationTypeRepository, *accountUseCase)
 	handlerTransaction = controller.NewTransactionHandler(transactionUseCase)
 
 	StartServer()
