@@ -4,35 +4,52 @@ import (
 	controller "card-transactions/internal/controllers/handlers"
 	repository "card-transactions/internal/platform/repositories"
 	"card-transactions/internal/usecase/accounts"
+	"card-transactions/internal/usecase/transaction"
 	"fmt"
 	"net/http"
 
 	"github.com/gorilla/handlers"
+	"github.com/gorilla/mux"
 )
 
 var (
-	accountUseCase *accounts.AccountUseCase
-	urlAccounts    = "../internal/platform/data/accounts.txt"
+	handlerAccount     *controller.AccountHandler
+	handlerTransaction *controller.TransactionHandler
+	urlAccounts        = "../internal/platform/data/accounts.txt"
+	urlTransactions    = "../internal/platform/data/transactions.txt"
 	// urlOperationTypes = "../internal/platform/data/operation_types.txt"
-	// urlTransactions   = "../internal/platform/data/transactions.txt"
+
 )
 
 func main() {
+	// Account
 	accountRepository := repository.NewAccountsRepository(urlAccounts)
-	accountUseCase = accounts.NewAccountsUseCase(accountRepository)
-	StartServer()
+	accountUseCase := accounts.NewAccountsUseCase(accountRepository)
+	handlerAccount = controller.NewAccountHandler(accountUseCase)
 
-	fmt.Println("hello word")
+	//Transaction
+	transactionRepository := repository.NewTransactionRepository(urlTransactions)
+	transactionUseCase := transaction.NewTransactionUseCase(transactionRepository)
+	handlerTransaction = controller.NewTransactionHandler(transactionUseCase)
+
+	StartServer()
 }
 
 func StartServer() {
-	handler := controller.NewAccountHandler(accountUseCase)
-	router := handler.RegisterRoutes()
-
+	router := RegisterRoutes(handlerAccount, handlerTransaction)
 	headers := handlers.AllowedHeaders([]string{"Content-Type"})
 	methods := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE"})
 	origins := handlers.AllowedOrigins([]string{"*"})
 
 	fmt.Println("Server listening on http://localhost:8080")
 	http.ListenAndServe(":8080", handlers.CORS(headers, methods, origins)(router))
+}
+
+func RegisterRoutes(handlerAccount *controller.AccountHandler, handlerTransaction *controller.TransactionHandler) *mux.Router {
+	router := mux.NewRouter()
+	router.HandleFunc("/accounts/{accountId}", handlerAccount.GetByID)
+	router.HandleFunc("/accounts", handlerAccount.Add)
+	router.HandleFunc("/transactions", handlerTransaction.Add)
+
+	return router
 }

@@ -81,11 +81,3 @@ func (h *AccountHandler) Add(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)
 
 }
-
-func (h *AccountHandler) RegisterRoutes() *mux.Router {
-	router := mux.NewRouter()
-	router.HandleFunc("/accounts/{accountId}", h.GetByID)
-	router.HandleFunc("/accounts", h.Add)
-
-	return router
-}

@@ -88,6 +88,7 @@ func (r AccountsRepository) GetByDocumentNumber(documentNumber string) (entity.A
 
 		if a.DocumentNumber == documentNumber {
 			account = a
+			break
 		}
 	}
 

@@ -1,0 +1,2 @@
+ID: b04a3250-85ba-4231-b0b5-968e151ac7d0|AccountID: 1|OperationTypesID: 4|Amount: 123.45|EventDate: 2023-07-21 03:21:06.0345787 -0300 -03 m=+2.918923301
+ID: 3778df42-8a8f-4cc2-9866-d144bb8d2f7d|AccountID: 1|OperationTypesID: 4|Amount: 100|EventDate: 2023-07-21 03:22:04.969473 -0300 -03 m=+61.853817601

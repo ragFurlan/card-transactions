@@ -21,17 +21,17 @@ func NewAccountsUseCase(accountRepository repository.Accounts) *AccountUseCase {
 	}
 }
 
-func (n AccountUseCase) Save(account entity.Account) error {
-	account, err := n.GetByDocumentNumber(account.DocumentNumber)
+func (a AccountUseCase) Save(account entity.Account) error {
+	accountByDocumentNumber, err := a.GetByDocumentNumber(account.DocumentNumber)
 	if err != nil {
 		return err
 	}
 
-	if account.ID != "" {
-		return fmt.Errorf("This account already be created")
+	if accountByDocumentNumber.ID != "" {
+		return fmt.Errorf("This account has already been created")
 	}
 
-	err = n.AccountRepository.Save(account)
+	err = a.AccountRepository.Save(account)
 	if err != nil {
 		return err
 	}
@@ -39,8 +39,8 @@ func (n AccountUseCase) Save(account entity.Account) error {
 	return nil
 }
 
-func (n AccountUseCase) GetByID(id string) (entity.Account, error) {
-	account, err := n.AccountRepository.GetByID(id)
+func (a AccountUseCase) GetByID(id string) (entity.Account, error) {
+	account, err := a.AccountRepository.GetByID(id)
 	if err != nil {
 		return entity.Account{}, err
 	}
