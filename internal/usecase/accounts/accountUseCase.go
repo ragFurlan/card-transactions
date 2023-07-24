@@ -8,7 +8,7 @@ import (
 	"gopkg.in/go-playground/validator.v9"
 )
 
-type AccountUseCase struct {
+type AccountUsecase struct {
 	AccountRepository repository.Accounts
 }
 
@@ -17,13 +17,13 @@ type Account interface {
 	Get(id int) (entity.Account, error)
 }
 
-func NewAccountsUseCase(accountRepository repository.Accounts) *AccountUseCase {
-	return &AccountUseCase{
+func NewAccountsUsecase(accountRepository repository.Accounts) *AccountUsecase {
+	return &AccountUsecase{
 		AccountRepository: accountRepository,
 	}
 }
 
-func (a AccountUseCase) Save(account entity.Account) error {
+func (a AccountUsecase) Save(account entity.Account) error {
 	validate := validator.New()
 	err := validate.Struct(account)
 	if err != nil {
@@ -48,7 +48,7 @@ func (a AccountUseCase) Save(account entity.Account) error {
 	return nil
 }
 
-func (a AccountUseCase) GetByID(id string) (entity.Account, error) {
+func (a AccountUsecase) GetByID(id string) (entity.Account, error) {
 	account, err := a.AccountRepository.GetByID(id)
 	if err != nil {
 		return entity.Account{}, err
@@ -57,7 +57,7 @@ func (a AccountUseCase) GetByID(id string) (entity.Account, error) {
 	return account, nil
 }
 
-func (n AccountUseCase) GetByDocumentNumber(documentNumber string) (entity.Account, error) {
+func (n AccountUsecase) GetByDocumentNumber(documentNumber string) (entity.Account, error) {
 	account, err := n.AccountRepository.GetByDocumentNumber(documentNumber)
 	if err != nil {
 		return entity.Account{}, err

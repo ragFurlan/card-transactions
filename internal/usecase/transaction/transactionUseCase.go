@@ -3,42 +3,43 @@ package transaction
 import (
 	"card-transactions/internal/entity"
 	repository "card-transactions/internal/platform/repositories"
-	accountsUseCase "card-transactions/internal/usecase/accounts"
-	operationTypeUseCase "card-transactions/internal/usecase/operationType"
+	accountsUsecase "card-transactions/internal/usecase/accounts"
+	operationTypeUsecase "card-transactions/internal/usecase/operationType"
 	"fmt"
 
 	"gopkg.in/go-playground/validator.v9"
+
 )
 
-type TransactionUseCase struct {
+type TransactionUsecase struct {
 	TransactionRepository repository.Transaction
-	OperationTypeUseCase  operationTypeUseCase.OperationTypeUseCase
-	AccountUseCase        accountsUseCase.AccountUseCase
+	OperationTypeUsecase  operationTypeUsecase.OperationTypeUsecase
+	AccountUsecase        accountsUsecase.AccountUsecase
 }
 
 type Transaction interface {
 	Save(account entity.Transaction) error
 }
 
-func NewTransactionUseCase(transactionRepository repository.Transaction,
-	operationTypeUseCase operationTypeUseCase.OperationTypeUseCase,
-	accountUseCase accountsUseCase.AccountUseCase) *TransactionUseCase {
+func NewTransactionUsecase(transactionRepository repository.Transaction,
+	operationTypeUsecase operationTypeUsecase.OperationTypeUsecase,
+	accountUsecase accountsUsecase.AccountUsecase) *TransactionUsecase {
 
-	return &TransactionUseCase{
+	return &TransactionUsecase{
 		TransactionRepository: transactionRepository,
-		OperationTypeUseCase:  operationTypeUseCase,
-		AccountUseCase:        accountUseCase,
+		OperationTypeUsecase:  operationTypeUsecase,
+		AccountUsecase:        accountUsecase,
 	}
 }
 
-func (t TransactionUseCase) Save(transaction entity.Transaction) error {
+func (t TransactionUsecase) Save(transaction entity.Transaction) error {
 	validate := validator.New()
 	err := validate.Struct(transaction)
 	if err != nil {
 		return err
 	}
 
-	account, err := t.AccountUseCase.GetByID(transaction.AccountID)
+	account, err := t.AccountUsecase.GetByID(transaction.AccountID)
 	if err != nil {
 		return err
 	}
@@ -47,7 +48,7 @@ func (t TransactionUseCase) Save(transaction entity.Transaction) error {
 		return fmt.Errorf("The given account does not exist")
 	}
 
-	operationType, err := t.OperationTypeUseCase.Get(transaction.OperationTypesID)
+	operationType, err := t.OperationTypeUsecase.Get(transaction.OperationTypesID)
 	if err != nil {
 		return err
 	}

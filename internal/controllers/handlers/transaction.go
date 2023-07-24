@@ -12,12 +12,12 @@ import (
 )
 
 type TransactionHandler struct {
-	TransactionUseCase *transaction.TransactionUseCase
+	TransactionUsecase *transaction.TransactionUsecase
 }
 
-func NewTransactionHandler(transactionUseCase *transaction.TransactionUseCase) *TransactionHandler {
+func NewTransactionHandler(transactionUsecase *transaction.TransactionUsecase) *TransactionHandler {
 	return &TransactionHandler{
-		TransactionUseCase: transactionUseCase,
+		TransactionUsecase: transactionUsecase,
 	}
 }
 
@@ -48,7 +48,7 @@ func (h *TransactionHandler) Add(w http.ResponseWriter, r *http.Request) {
 		EventDate:        time.Now(),
 	}
 
-	err = h.TransactionUseCase.Save(transaction)
+	err = h.TransactionUsecase.Save(transaction)
 	if err != nil {
 		http.Error(w, fmt.Sprintf("%v", err), http.StatusInternalServerError)
 		return

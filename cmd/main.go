@@ -25,17 +25,17 @@ func main() {
 
 	// Operation Type
 	operationTypeRepository := repository.NewOperationTypeRepository(urlOperationTypes)
-	operationTypeUseCase := operationType.NewOperationTypeUseCase(operationTypeRepository)
+	operationTypeUsecase := operationType.NewOperationTypeUsecase(operationTypeRepository)
 
 	// Account
 	accountRepository := repository.NewAccountsRepository(urlAccounts)
-	accountUseCase := accounts.NewAccountsUseCase(accountRepository)
-	handlerAccount = controller.NewAccountHandler(accountUseCase)
+	accountUsecase := accounts.NewAccountsUsecase(accountRepository)
+	handlerAccount = controller.NewAccountHandler(accountUsecase)
 
 	//Transaction
 	transactionRepository := repository.NewTransactionRepository(urlTransactions)
-	transactionUseCase := transaction.NewTransactionUseCase(transactionRepository, *operationTypeUseCase, *accountUseCase)
-	handlerTransaction = controller.NewTransactionHandler(transactionUseCase)
+	transactionUsecase := transaction.NewTransactionUsecase(transactionRepository, *operationTypeUsecase, *accountUsecase)
+	handlerTransaction = controller.NewTransactionHandler(transactionUsecase)
 
 	StartServer()
 }

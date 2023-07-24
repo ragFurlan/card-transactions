@@ -5,7 +5,7 @@ import (
 	repository "card-transactions/internal/platform/repositories"
 )
 
-type OperationTypeUseCase struct {
+type OperationTypeUsecase struct {
 	OperationTypeRepository repository.OperationType
 }
 
@@ -13,13 +13,13 @@ type OperationType interface {
 	Get(id int) (entity.OperationType, error)
 }
 
-func NewOperationTypeUseCase(operationTypeRepository repository.OperationType) *OperationTypeUseCase {
-	return &OperationTypeUseCase{
+func NewOperationTypeUsecase(operationTypeRepository repository.OperationType) *OperationTypeUsecase {
+	return &OperationTypeUsecase{
 		OperationTypeRepository: operationTypeRepository,
 	}
 }
 
-func (r OperationTypeUseCase) Get(id int) (entity.OperationType, error) {
+func (r OperationTypeUsecase) Get(id int) (entity.OperationType, error) {
 	account, err := r.OperationTypeRepository.GetByID(id)
 	if err != nil {
 		return entity.OperationType{}, err

@@ -12,12 +12,12 @@ import (
 )
 
 type AccountHandler struct {
-	AccountUseCase *accounts.AccountUseCase
+	AccountUsecase *accounts.AccountUsecase
 }
 
-func NewAccountHandler(accountUseCase *accounts.AccountUseCase) *AccountHandler {
+func NewAccountHandler(accountUsecase *accounts.AccountUsecase) *AccountHandler {
 	return &AccountHandler{
-		AccountUseCase: accountUseCase,
+		AccountUsecase: accountUsecase,
 	}
 }
 
@@ -33,7 +33,7 @@ func (h *AccountHandler) GetByID(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Id is missing in parameters", http.StatusMethodNotAllowed)
 	}
 
-	account, err := h.AccountUseCase.GetByID(id)
+	account, err := h.AccountUsecase.GetByID(id)
 	if err != nil {
 		http.Error(w, "Failed to get logs", http.StatusInternalServerError)
 		return
@@ -65,7 +65,7 @@ func (h *AccountHandler) Add(w http.ResponseWriter, r *http.Request) {
 		DocumentNumber: requestBody.DocumentNumber,
 	}
 
-	err = h.AccountUseCase.Save(account)
+	err = h.AccountUsecase.Save(account)
 	if err != nil {
 		http.Error(w, fmt.Sprintf("%v", err), http.StatusInternalServerError)
 		return
