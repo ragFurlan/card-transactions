@@ -4,7 +4,7 @@
 It is a card transaction routine application
 ```
 
-### Install mockgen if necessary
+### Install mockgen and dependencies, if necessary
 ```
 go install github.com/golang/mock/mockgen@v1.6.0
 go get github.com/golang/mock/gomock
