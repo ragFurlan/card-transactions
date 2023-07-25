@@ -16,9 +16,9 @@ import (
 var (
 	handlerAccount     *controller.AccountHandler
 	handlerTransaction *controller.TransactionHandler
-	urlAccounts        = "../internal/platform/data/accounts.txt"
-	urlTransactions    = "../internal/platform/data/transactions.txt"
-	urlOperationTypes  = "../internal/platform/data/operation_types.txt"
+	urlAccounts        = "./internal/platform/data/accounts.txt"
+	urlTransactions    = "./internal/platform/data/transactions.txt"
+	urlOperationTypes  = "./internal/platform/data/operation_types.txt"
 )
 
 func main() {

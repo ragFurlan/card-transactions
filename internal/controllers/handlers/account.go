@@ -9,6 +9,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
+
 )
 
 type AccountHandler struct {
@@ -35,7 +36,8 @@ func (h *AccountHandler) GetByID(w http.ResponseWriter, r *http.Request) {
 
 	account, err := h.AccountUsecase.GetByID(id)
 	if err != nil {
-		http.Error(w, "Failed to get logs", http.StatusInternalServerError)
+	
+		http.Error(w, "Failed to get account", http.StatusInternalServerError)
 		return
 	}
 

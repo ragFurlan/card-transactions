@@ -9,14 +9,18 @@ go get github.com/stretchr/testify/assert
 
 ```
 ### run project locale
-1. go to the past card-transactions/cmd
-2. write the line of command bellow:
+
+Write the line of command bellow:
 ```
 go run main.go
 ```
  
-run the project with Docker
+### run the project with Docker
+```
+docker build -t card-transaction .
 
+docker run -p 8080:8080 card-transaction
+```
 
 
 ## **Create mock**
