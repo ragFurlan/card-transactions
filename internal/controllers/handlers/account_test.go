@@ -53,57 +53,6 @@ func TestAccountHandler_GetByID(t *testing.T) {
 
 }
 
-// func TestAccountHandler_Add(t *testing.T) {
-// 	setHandlerAndLogMock(t)
-
-// 	requestBody := struct {
-// 		DocumentNumber string `json:"document_number"`
-// 	}{
-// 		DocumentNumber: documentNumber,
-// 	}
-
-// 	requestBodyBytes, err := json.Marshal(requestBody)
-// 	if err != nil {
-// 		t.Fatalf("Failed to marshal request body: %v", err)
-// 	}
-
-// 	req := httptest.NewRequest("POST", "/accounts", bytes.NewReader(requestBodyBytes))
-// 	rr := httptest.NewRecorder()
-
-// 	router := mux.NewRouter()
-// 	router.HandleFunc("/accounts", handler.Add).Methods("POST")
-
-// 	requestAccount := entity.Account{
-// 		ID:             id,
-// 		DocumentNumber: "123456789010",
-// 	}
-
-// 	repositoryMock.EXPECT().Save(requestAccount).Return(nil)
-
-// 	router.ServeHTTP(rr, req)
-
-// 	assert.Equal(t, http.StatusOK, rr.Code)
-
-// 	// // Parse the response body and check if it matches the expected data
-// 	// var response struct {
-// 	// 	AccountID string `json:"account_id"`
-// 	// 	Message   string `json:"message"`
-// 	// }
-// 	// err = json.Unmarshal(rr.Body.Bytes(), &response)
-// 	// if err != nil {
-// 	// 	t.Errorf("Failed to unmarshal response: %v", err)
-// 	// }
-
-// 	// // Validate the response fields
-// 	// assert.NotEmpty(t, response.AccountID)
-// 	// assert.Equal(t, "Save account with success", response.Message)
-
-// 	// // Assert that the mock AccountUsecase's Save method was called with the correct account data
-// 	// mockAccount := mockAccountUsecase.GetLastSavedAccount()
-// 	// assert.Equal(t, response.AccountID, mockAccount.ID)
-// 	// assert.Equal(t, requestBody.DocumentNumber, mockAccount.DocumentNumber)
-// }
-
 func setHandlerAndLogMock(t *testing.T) {
 	controller = gomock.NewController(t)
 	repositoryMock = repository.NewMockAccounts(controller)
