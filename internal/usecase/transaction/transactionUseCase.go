@@ -8,7 +8,6 @@ import (
 	"fmt"
 
 	"gopkg.in/go-playground/validator.v9"
-
 )
 
 type TransactionUsecase struct {
@@ -54,7 +53,12 @@ func (t TransactionUsecase) Save(transaction entity.Transaction) error {
 	}
 
 	if operationType.ID == 0 {
+
 		return fmt.Errorf("The given operation type does not exist")
+	}
+
+	if operationType.ID != 4 {
+		transaction.Amount = transaction.Amount * -1
 	}
 
 	err = t.TransactionRepository.Save(transaction)
