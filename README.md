@@ -1,12 +1,23 @@
 # card-transactions
 
-https://hub.docker.com/_/golang
-
 ### Install mockgen if necessary
-
+```
 go install github.com/golang/mock/mockgen@v1.6.0
 go get github.com/golang/mock/gomock
 go get github.com/stretchr/testify/assert
+
+
+```
+### run project locale
+1. go to the past card-transactions/cmd
+2. write the line of command bellow:
+```
+go run main.go
+```
+ 
+run the project with Docker
+
+
 
 ## **Create mock**
 
